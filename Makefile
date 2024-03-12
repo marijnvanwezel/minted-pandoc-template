@@ -15,7 +15,7 @@ $(REPORT_TEX): $(REPORT_SOURCE)
 		pandoc $(PANDOC_CITEPROC_OLD) $(PANDOC_SHARED_ARGS)
 
 watch:
-	make && xdg-open $(REPORT_TARGET) && echo $(REPORT_SOURCE) | entr make $(REPORT_TARGET)
+	make && (xdg-open $(REPORT_TARGET) || open $(REPORT_TARGET)) && echo $(REPORT_SOURCE) | entr make $(REPORT_TARGET)
 
 clean:
 	rm -f $(REPORT_TARGET)
