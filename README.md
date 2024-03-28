@@ -7,6 +7,7 @@ This repository contains the setup necessary to compile Markdown templates using
 * LaTeX
 * Pandoc 2.11 or higher
 * Latexmk 4.76 or higher
+* `pandoc-latex-environment`
 * `entr` (for watch mode)
 
 ## Usage
