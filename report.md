@@ -1,40 +1,55 @@
 ---
-title: "TITLE"
-subtitle: "SUBTITLE"
+title: "INSERT TITLE HERE"
+subtitle: "INSERT SUBTITLE HERE"
 date: \today
 author:
-- "AUTHOR"
-lang: en
-documentclass: article
-toc: false
-numbersections: true
-fontsize: 11pt
-font-family: fourier
-fontfamily: fourier
-bibliography: references.bib
-geometry: margin=2.5cm
-listings: true
+- "INSERT AUTHOR NAME HERE"
 biblio-style: apa
+bibliography: references.bib
 colorlinks: true
-titlepage: true
-listings-disable-line-numbers: false
-footnotes-pretty: true
-titlepage-rule-height: 0
+fontfamily: fourier
+fontsize: 11pt
+geometry: "margin=2.5cm"
+lang: en
+numbersections: true
+toc: true
+minted:
+  block_attributes: ["linenos","numbersep=18pt"]
+  inline_attributes: ["bgcolor=mintedbg"]
+pandoc-latex-environment:
+  noteblock: [note]
+  tipblock: [tip]
+  warningblock: [warning]
+  cautionblock: [caution]
+  importantblock: [important]
 header-includes: |
-    \usepackage[utf8]{inputenc}
-    \usepackage{amsmath}
-    \usepackage[T1]{fontenc}
-    \usepackage{textcomp}
-    \usepackage{fourier}
-    \usepackage{pmboxdraw}
-    \usepackage{microtype}
-    \usepackage{amsthm}
-    \usepackage{listings}
-    \usepackage{footmisc}
-    \usepackage{amssymb}
-    \usepackage{minted}
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+  \usepackage{amsthm}
+  \usepackage{awesomebox}
+  \usepackage[T1]{fontenc}
+  \usepackage{footmisc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{listings}
+  \usepackage{mdframed}
+  \usepackage{microtype}
+  \usepackage[outputdir=temp]{minted}
+  \usepackage{textcomp}
+  \usepackage{xpatch}
+
+  \usemintedstyle{tango}
+
+  \definecolor{mintedbg}{rgb}{0.95,0.95,0.95}
+  \mdfsetup{
+    skipabove=12pt,skipbelow=12pt,
+    innertopmargin=10pt,innerbottommargin=10pt,
+    backgroundcolor=mintedbg,
+    leftline=false,topline=false,rightline=false,bottomline=false
+  }
+  \surroundwithmdframed{minted}
+
+  \AtBeginEnvironment{minted}{\let\itshape\relax}
+  \xpatchcmd{\mintinline}{\begingroup}{\begingroup\let\itshape\relax}{}{}
 ---
 
-\definecolor{LightGray}{gray}{0.95}
-
-CONTENT
+INSERT CONTENT HERE

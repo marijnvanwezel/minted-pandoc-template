@@ -1,23 +1,28 @@
+PANDOC=pandoc
+LATEXMK=latexmk
+
+OUTPUT_DIR=temp
 REPORT_NAME=report
-REPORT_TARGET=$(REPORT_NAME).pdf
 REPORT_SOURCE=$(REPORT_NAME).md
 REPORT_TEX=$(REPORT_NAME).tex
+REPORT_TARGET=$(REPORT_NAME).pdf
 
-PANDOC_CITEPROC_NEW=--citeproc
-PANDOC_CITEPROC_OLD=--filter=pandoc-citeproc
-PANDOC_SHARED_ARGS=-s --no-highlight --template=koi.tex --lua-filter=minted.lua -o $(REPORT_TEX) $(REPORT_SOURCE)
+PANDOC_ARGS=-s --citeproc --listings --template=template.tex --filter=pandoc-latex-environment --lua-filter=minted.lua -o $(REPORT_TEX) $(REPORT_SOURCE)
+LATEXMK_ARGS=-pdf -shell-escape -jobname=$(REPORT_NAME) -outdir=$(OUTPUT_DIR) $(REPORT_NAME)
 
-$(REPORT_TARGET): $(REPORT_TEX)
-	latexmk -pdf -shell-escape -jobname=report $(REPORT_NAME)
+$(REPORT_TARGET): $(OUTPUT_DIR)/$(REPORT_TEX)
+	$(LATEXMK) $(LATEXMK_ARGS)
+	mv $(OUTPUT_DIR)/$(REPORT_TARGET) $(REPORT_TARGET)
 
-$(REPORT_TEX): $(REPORT_SOURCE)
-	pandoc $(PANDOC_CITEPROC_NEW) $(PANDOC_SHARED_ARGS) || \
-		pandoc $(PANDOC_CITEPROC_OLD) $(PANDOC_SHARED_ARGS)
+$(OUTPUT_DIR)/$(REPORT_TEX): $(REPORT_SOURCE)
+	$(PANDOC) $(PANDOC_ARGS)
 
 watch:
-	make && (xdg-open $(REPORT_TARGET) || open $(REPORT_TARGET)) && echo $(REPORT_SOURCE) | entr make $(REPORT_TARGET)
+	make $(REPORT_TARGET)
+	open $(REPORT_TARGET)
+	echo $(REPORT_SOURCE) | entr make $(REPORT_TARGET)
 
 clean:
-	rm -f $(REPORT_TARGET)
+	rm -r $(OUTPUT_DIR) $(REPORT_TARGET) $(REPORT_TEX)
 
 .PHONY: watch clean
